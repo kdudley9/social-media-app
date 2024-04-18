@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/pages/registration/signup_page.dart';
+import 'package:social_media_app/themes/app_colors.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -16,7 +17,7 @@ class WelcomePage extends StatelessWidget {
             const Text(
               'MINGL',
               style: TextStyle(
-                color: Color(0xffcc0000),
+                color: AppColors.minglRed,
                 fontWeight: FontWeight.bold,
                 fontSize: 48.0,
               ),

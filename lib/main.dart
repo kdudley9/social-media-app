@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/firebase_options.dart';
 import 'package:social_media_app/pages/registration/welcome_page.dart';
+import 'package:social_media_app/themes/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +23,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
-            .copyWith(background: const Color(0xfff2f2f2)),
+            .copyWith(background: AppColors.minglWhite),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(width: 2.0, color: Color(0xffcc0000)),
-            foregroundColor: const Color(0xffcc0000),
+            side: const BorderSide(width: 2.0, color: AppColors.minglRed),
+            foregroundColor: AppColors.minglRed,
             fixedSize: const Size(250, 50),
           ),
         ),

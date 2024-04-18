@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/services/authentication_service.dart';
+import 'package:social_media_app/themes/app_colors.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -31,6 +32,8 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Account'),
+        backgroundColor: AppColors.minglRed,
+        foregroundColor: AppColors.minglWhite,
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -44,7 +47,7 @@ class _SignupPageState extends State<SignupPage> {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xffcc0000),
+                  color: AppColors.minglRed,
                 ),
               ),
               const SizedBox(height: 8),
@@ -131,9 +134,9 @@ class _SignupPageState extends State<SignupPage> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              const Color(0xffcc0000)),
+                              AppColors.minglRed),
                           foregroundColor: MaterialStateProperty.all<Color>(
-                              const Color(0xfff2f2f2)),
+                              AppColors.minglWhite),
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                             const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
