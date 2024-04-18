@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/services/authentication_service.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -8,7 +9,22 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final AuthenticationService _authenticationService = AuthenticationService();
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+  bool passwordVisible = false;
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +60,7 @@ class _SignupPageState extends State<SignupPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextFormField(
+                        controller: _usernameController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your username';
@@ -62,6 +79,7 @@ class _SignupPageState extends State<SignupPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextFormField(
+                        controller: _emailController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a valid email address';
@@ -80,17 +98,29 @@ class _SignupPageState extends State<SignupPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextFormField(
+                        controller: _passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                        obscureText: !passwordVisible,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
                           hintText: 'Enter your password',
                           labelText: 'Password',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
+                          suffixIcon: IconButton(
+                            icon: Icon(passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                passwordVisible = !passwordVisible;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -115,7 +145,14 @@ class _SignupPageState extends State<SignupPage> {
                             const Size(350, 50),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await _authenticationService.signUp(
+                            context,
+                            _usernameController.text,
+                            _emailController.text,
+                            _passwordController.text,
+                          );
+                        },
                         child: const Text('SIGN UP'),
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/services/authentication_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -8,7 +9,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthenticationService _authenticationService = AuthenticationService();
+
+  final _emailcontroller = TextEditingController();
+  final _passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+  bool passwordVisible = false;
+
+  @override
+  void dispose() {
+    _emailcontroller.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextFormField(
+                        controller: _emailcontroller,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter an email address';
@@ -61,17 +77,29 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextFormField(
+                        controller: _passwordController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                        obscureText: !passwordVisible,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
                           hintText: 'Enter your password',
                           labelText: 'Password',
                           floatingLabelBehavior: FloatingLabelBehavior.always,
+                          suffixIcon: IconButton(
+                            icon: Icon(passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                passwordVisible = !passwordVisible;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -96,7 +124,13 @@ class _LoginPageState extends State<LoginPage> {
                             const Size(350, 50),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await _authenticationService.logIn(
+                            context,
+                            _emailcontroller.text,
+                            _passwordController.text,
+                          );
+                        },
                         child: const Text('LOG IN'),
                       ),
                     ),
