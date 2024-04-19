@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
+import 'package:social_media_app/pages/content/home_page.dart';
+import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 
@@ -107,6 +110,20 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 25),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4.0, vertical: 0.0),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResetPasswordPage()),
+                          );
+                        },
+                        child: const Text('Forgot password?'),
+                      ),
+                    ),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -128,11 +145,25 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         onPressed: () async {
-                          await _authenticationService.logIn(
-                            context,
-                            _emailcontroller.text,
-                            _passwordController.text,
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            final _status = await _authenticationService.logIn(
+                              _emailcontroller.text.trim(),
+                              _passwordController.text.trim(),
+                            );
+                            if (_status == AuthStatus.successful) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
+                            } else {
+                              final error =
+                                  AuthExceptionHandler.generateErrorMessage(
+                                      _status);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text(error)));
+                            }
+                          }
                         },
                         child: const Text('LOG IN'),
                       ),

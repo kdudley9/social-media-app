@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
+import 'package:social_media_app/pages/content/home_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 
@@ -149,12 +151,26 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         onPressed: () async {
-                          await _authenticationService.signUp(
-                            context,
-                            _usernameController.text,
-                            _emailController.text,
-                            _passwordController.text,
-                          );
+                          if (_formKey.currentState!.validate()) {
+                            final _status = await _authenticationService.signUp(
+                              _usernameController.text.trim(),
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
+                            );
+                            if (_status == AuthStatus.successful) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                              );
+                            } else {
+                              final error =
+                                  AuthExceptionHandler.generateErrorMessage(
+                                      _status);
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text(error)));
+                            }
+                          }
                         },
                         child: const Text('SIGN UP'),
                       ),

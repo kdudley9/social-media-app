@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +18,11 @@ class _HomepageState extends State<HomePage> {
         title: const Text('Feed'),
         backgroundColor: AppColors.minglRed,
         foregroundColor: AppColors.minglWhite,
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: Text(
+            'Hello ${AuthenticationService.auth.currentUser!.displayName}'),
       ),
     );
   }
