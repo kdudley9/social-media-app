@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
-import 'package:social_media_app/pages/content/home_page.dart';
+import 'package:social_media_app/pages/home/home_page.dart';
 import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';

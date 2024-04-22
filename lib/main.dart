@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:social_media_app/firebase_options.dart';
 import 'package:social_media_app/pages/registration/welcome_page.dart';
 import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/pages/home/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
