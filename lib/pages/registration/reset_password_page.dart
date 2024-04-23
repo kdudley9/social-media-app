@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
-import 'package:social_media_app/pages/home/home_page.dart';
 import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
@@ -31,92 +30,94 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         backgroundColor: AppColors.minglRed,
         foregroundColor: AppColors.minglWhite,
       ),
-      body: Container(
-        color: AppColors.minglWhite,
-        child: Padding(
-          padding: const EdgeInsets.only(
-              left: 16.0, right: 16.0, top: 50.0, bottom: 25.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 70),
-                const Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+      body: SingleChildScrollView(
+        child: Container(
+          color: AppColors.minglWhite,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 16.0, right: 16.0, top: 50.0, bottom: 25.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 70),
+                  const Text(
+                    'Forgot Password',
+                    style: TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Enter your email address to recover your password.',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Enter your email address to recover your password.',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                TextFormField(
-                  controller: _emailController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email address';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'example@gmail.com',
+                  const SizedBox(height: 10),
+                  TextFormField(
+                    controller: _emailController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email address';
+                      }
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'example@gmail.com',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(AppColors.minglRed),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          AppColors.minglWhite),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(5.0),
+                  const SizedBox(height: 16),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColors.minglRed),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            AppColors.minglWhite),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5.0),
+                            ),
                           ),
                         ),
+                        fixedSize: MaterialStateProperty.all<Size>(
+                          const Size(350, 50),
+                        ),
                       ),
-                      fixedSize: MaterialStateProperty.all<Size>(
-                        const Size(350, 50),
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        final _status = await _authService
-                            .resetPassword(_emailController.text.trim());
-                        if (_status == AuthStatus.successful) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()),
-                          );
-                        } else {
-                          final error =
-                              AuthExceptionHandler.generateErrorMessage(
-                                  _status);
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(SnackBar(content: Text(error)));
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          final _status = await _authService
+                              .resetPassword(_emailController.text.trim());
+                          if (_status == AuthStatus.successful) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                            );
+                          } else {
+                            final error =
+                                AuthExceptionHandler.generateErrorMessage(
+                                    _status);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(SnackBar(content: Text(error)));
+                          }
                         }
-                      }
-                    },
-                    child: const Text('RESET PASSWORD'),
+                      },
+                      child: const Text('RESET PASSWORD'),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-              ],
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ),
