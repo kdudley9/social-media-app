@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
+import 'package:social_media_app/services/posts_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 import 'package:social_media_app/components/post.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +16,7 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   final AuthenticationService _authenticationService = AuthenticationService();
+  final PostsService _postsService = PostsService();
 
   @override
   Widget build(BuildContext context) {
@@ -39,24 +41,10 @@ class _HomeContentState extends State<HomeContent> {
       ),
       body: Column(
         children: [
-          // Displaying user greeting
-          Container(
-            alignment: Alignment.center,
-            //padding: const EdgeInsets.all(16),
-            child: Text(
-              'Hello ${AuthenticationService.auth.currentUser?.displayName ?? "Guest"}',
-              style: const TextStyle(fontSize: 20),
-            ),
-          ),
-
           // Expanded allows the list view to take the remaining space
           Expanded(
             child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("User Posts")
-                  .orderBy("Timestamp",
-                      descending: true) // Show newest posts first
-                  .snapshots(),
+              stream: _postsService.getPosts(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   // Building a list of posts
@@ -68,7 +56,7 @@ class _HomeContentState extends State<HomeContent> {
                       final post = snapshot.data!.docs[index];
                       return Post(
                         message: post['Message'],
-                        user: post['UserEmail'],
+                        user: post['Username'],
                       );
                     },
                   );
