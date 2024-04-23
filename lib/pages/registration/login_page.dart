@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
-import 'package:social_media_app/pages/home/home_page.dart';
-import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 
@@ -115,11 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                           EdgeInsets.symmetric(horizontal: 4.0, vertical: 0.0),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ResetPasswordPage()),
-                          );
+                          Navigator.pushNamed(context, 'reset-password');
                         },
                         child: const Text('Forgot password?'),
                       ),
@@ -151,11 +145,8 @@ class _LoginPageState extends State<LoginPage> {
                               _passwordController.text.trim(),
                             );
                             if (_status == AuthStatus.successful) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'nav-bar', (route) => false);
                             } else {
                               final error =
                                   AuthExceptionHandler.generateErrorMessage(

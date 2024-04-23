@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
-import 'package:social_media_app/pages/home/home_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 
@@ -158,11 +157,8 @@ class _SignupPageState extends State<SignupPage> {
                               _passwordController.text.trim(),
                             );
                             if (_status == AuthStatus.successful) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'nav-bar', (route) => false);
                             } else {
                               final error =
                                   AuthExceptionHandler.generateErrorMessage(

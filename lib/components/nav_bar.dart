@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:social_media_app/services/authentication_service.dart';
-import 'package:social_media_app/pages/home/home_content.dart'; 
+import 'package:social_media_app/pages/home/home_content.dart';
 import 'package:social_media_app/pages/add_post/add_post.dart';
 import 'package:social_media_app/pages/profile/profile_page.dart';
-import 'package:social_media_app/pages/profile/edit_profile_page.dart';
-import 'package:social_media_app/themes/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class NavBar extends StatefulWidget {
+  const NavBar({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<NavBar> createState() => _NavBarState();
 }
 
-class _HomePageState extends State<HomePage> {
-  // get the user 
+class _NavBarState extends State<NavBar> {
   final currentUser = FirebaseAuth.instance.currentUser;
 
   int _navIndex = 0;
@@ -27,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _screens = [
-    const HomeContent(), // Use the new HomeContent widget
+    const HomeContent(),
     const AddPostPage(),
     const ProfilePage(),
   ];
@@ -35,11 +31,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Feed'),
-      //   backgroundColor: AppColors.minglRed,
-      //   foregroundColor: AppColors.minglWhite,
-      // ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -60,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Color.fromARGB(255, 204, 204, 204),
         onTap: _onNavTapped,
       ),
-      body: _screens[_navIndex], // Use the new screens list to switch
+      body: _screens[_navIndex],
     );
   }
 }

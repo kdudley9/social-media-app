@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:social_media_app/pages/home/home_content.dart';
 import 'package:social_media_app/services/posts_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
-import 'package:social_media_app/nav.dart';
 
 class AddPostPage extends StatefulWidget {
   const AddPostPage({super.key});
@@ -74,12 +71,8 @@ class _AddPostPageState extends State<AddPostPage> {
                             _formKey.currentState!.validate()) {
                           await postsService.addPost(message);
                           _messageController.clear();
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeContent()),
-                          );
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, 'nav-bar', (route) => false);
                         }
                       },
                       child: const Text('Post'),
@@ -91,11 +84,8 @@ class _AddPostPageState extends State<AddPostPage> {
                             MaterialStateProperty.all(const Size(100, 40)),
                       ),
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeContent()),
-                        );
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, 'nav-bar', (route) => false);
                       },
                       child: const Text('Cancel'),
                     ),

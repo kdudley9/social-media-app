@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/services/posts_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 import 'package:social_media_app/components/post.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
@@ -30,10 +27,8 @@ class _HomeContentState extends State<HomeContent> {
           IconButton(
             onPressed: () async {
               await _authenticationService.logout();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
+              Navigator.pushNamedAndRemoveUntil(
+                  context, 'login', (route) => false);
             },
             icon: const Icon(Icons.logout_outlined),
           )
@@ -41,16 +36,13 @@ class _HomeContentState extends State<HomeContent> {
       ),
       body: Column(
         children: [
-          // Expanded allows the list view to take the remaining space
           Expanded(
             child: StreamBuilder(
               stream: _postsService.getPosts(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  // Building a list of posts
                   return ListView.builder(
-                    itemCount:
-                        snapshot.data!.docs.length, // Define number of items
+                    itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       // Get the individual post
                       final post = snapshot.data!.docs[index];
@@ -66,8 +58,7 @@ class _HomeContentState extends State<HomeContent> {
                   );
                 } else {
                   return const Center(
-                    child:
-                        CircularProgressIndicator(), // Loading indicator while fetching data
+                    child: CircularProgressIndicator(),
                   );
                 }
               },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
-import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/themes/app_colors.dart';
 
@@ -98,11 +97,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           final _status = await _authService
                               .resetPassword(_emailController.text.trim());
                           if (_status == AuthStatus.successful) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                            );
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'login', (route) => false);
                           } else {
                             final error =
                                 AuthExceptionHandler.generateErrorMessage(
