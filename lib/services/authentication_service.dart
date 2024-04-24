@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
+import 'package:social_media_app/shared_assets/image_assets.dart';
 
 class AuthenticationService {
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late AuthStatus _status;
@@ -24,6 +24,7 @@ class AuthenticationService {
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
         'username': username,
         'email': email,
+        'imagePath': ImageAssets.defaultProfilePicture,
       });
     } on FirebaseAuthException catch (e) {
       _status = AuthExceptionHandler.handleAuthException(e);

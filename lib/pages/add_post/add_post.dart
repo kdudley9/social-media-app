@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/services/posts_service.dart';
-import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
 class AddPostPage extends StatefulWidget {
   const AddPostPage({super.key});

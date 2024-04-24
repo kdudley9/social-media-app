@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/firebase_options.dart';
@@ -9,13 +10,19 @@ import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/pages/registration/signup_page.dart';
 import 'package:social_media_app/pages/registration/welcome_page.dart';
-import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider: AndroidProvider.playIntegrity,
+    appleProvider: AppleProvider.appAttest,
+  );
+
   runApp(const MyApp());
 }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
 import 'package:social_media_app/services/authentication_service.dart';
-import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});

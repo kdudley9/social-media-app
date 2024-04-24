@@ -1,16 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/pages/profile/user_preferences.dart';
 import 'package:social_media_app/components/profile_widget.dart';
-import 'package:social_media_app/components/user.dart';
+// import 'package:social_media_app/components/user.dart';
 import 'package:social_media_app/components/numbers_widget.dart';
-import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/services/authentication_service.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = AuthenticationService.auth.currentUser!;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.myUser;
+    // final user = UserPreferences.myUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -20,20 +35,23 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
-        child: ListView(physics: const BouncingScrollPhysics(), children: [
-          ProfileWidget(
-            imagePath: user.imagePath,
-            onClicked: () async {
-              Navigator.pushNamed(context, 'edit-profile');
-            },
-          ),
-          const SizedBox(height: 24),
-          buildName(user),
-          const SizedBox(height: 50),
-          const NumbersWidget(),
-          const SizedBox(height: 50),
-          buildAbout(user),
-        ]),
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
+            ProfileWidget(
+              imagePath: user.photoURL ?? '',
+              onClicked: () async {
+                Navigator.pushNamed(context, 'edit-profile');
+              },
+            ),
+            const SizedBox(height: 24),
+            buildName(user),
+            const SizedBox(height: 50),
+            const NumbersWidget(),
+            const SizedBox(height: 50),
+            buildAbout(user),
+          ],
+        ),
       ),
     );
   }
@@ -41,12 +59,12 @@ class ProfilePage extends StatelessWidget {
   Widget buildName(User user) => Column(
         children: [
           Text(
-            user.name,
+            user.displayName ?? '',
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(height: 4),
           Text(
-            user.email,
+            user.email ?? '',
             style: const TextStyle(color: Colors.grey),
           ),
         ],
@@ -64,7 +82,8 @@ class ProfilePage extends StatelessWidget {
                 )),
             const SizedBox(height: 16),
             Text(
-              user.bio,
+              // user.bio ?? '',
+              '',
               style: const TextStyle(fontSize: 16, height: 1.4),
             ),
           ],
