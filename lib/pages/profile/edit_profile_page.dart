@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media_app/pages/profile/user_preferences.dart';
 import 'package:social_media_app/components/profile_widget.dart';
 import 'package:social_media_app/components/textfield.dart';
 import 'package:social_media_app/providers/profile_image_provider.dart';
@@ -23,11 +22,24 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   late User user;
   File? _image;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     user = AuthenticationService.auth.currentUser!;
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final userDoc =
+        FirebaseFirestore.instance.collection('users').doc(user.uid);
+    final userData = await userDoc.get();
+    setState(() {
+      _usernameController.text = userData['username'] ?? '';
+      _bioController.text = userData['bio'] ?? '';
+    });
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -46,15 +58,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final userDoc = firestore.collection('users').doc(user.uid);
 
     final userData = {
-      'useranme': user.displayName,
+      'username': _usernameController.text,
       'email': user.email,
-      // 'bio': user!.bio,
+      'bio': _bioController.text,
     };
 
     if (_image != null) {
       final imageUrl = await _uploadImageToStorage(_image!);
       userData['imagePath'] = imageUrl;
-      // user.updatePhotoURL(imageUrl);
 
       Provider.of<ProfileImageProvider>(context, listen: false)
           .setProfileImageUrl(imageUrl);
@@ -62,7 +73,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       await userDoc.set(userData, SetOptions(merge: true));
     }
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Photo Saved')));
+        .showSnackBar(SnackBar(content: Text('Saved')));
   }
 
   Future<String> _uploadImageToStorage(File imageFile) async {
@@ -96,7 +107,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              // imagePath: user.imagePath,
               imagePath: user.photoURL ?? '',
               isEdit: true,
               onClicked: () async {
@@ -105,30 +115,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
             const SizedBox(height: 24),
             TextFieldWidget(
-              label: 'Name',
+              label: 'Username',
               text: user.displayName ?? '',
-              onChanged: (name) {},
+              controller: _usernameController,
+              onChanged: (username) {},
             ),
             const SizedBox(height: 24),
-            // TextFieldWidget(
-            //   label: 'Email',
-            //   text: user.email,
-            //   onChanged: (email) {},
-            // ),
-            // const SizedBox(height: 24),
-            // TextFieldWidget(
-            //   label: 'Bio',
-            //   text: user.bio,
-            //   maxLines: 5,
-            //   onChanged: (bio) {},
-            // ),
+            TextFieldWidget(
+              label: 'Bio',
+              text: '',
+              controller: _bioController,
+              maxLines: 5,
+              onChanged: (bio) {},
+            ),
             const SizedBox(height: 24),
             OutlinedButton(
               onPressed: _saveUser,
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.minglRed, // Text color
-                side: const BorderSide(
-                    color: AppColors.minglRed), // Outline color
+                foregroundColor: AppColors.minglRed,
+                side: const BorderSide(color: AppColors.minglRed),
               ),
               child: const Text("Save"),
             ),

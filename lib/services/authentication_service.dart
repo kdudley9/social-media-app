@@ -25,6 +25,7 @@ class AuthenticationService {
         'username': username,
         'email': email,
         'imagePath': ImageAssets.defaultProfilePicture,
+        'bio': 'No bio yet...',
       });
     } on FirebaseAuthException catch (e) {
       _status = AuthExceptionHandler.handleAuthException(e);

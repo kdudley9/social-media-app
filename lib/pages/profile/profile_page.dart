@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/pages/profile/user_preferences.dart';
 import 'package:social_media_app/components/profile_widget.dart';
-// import 'package:social_media_app/components/user.dart';
 import 'package:social_media_app/components/numbers_widget.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
@@ -16,17 +16,28 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late User user;
+  late String bio = '';
+  late String username = '';
 
   @override
   void initState() {
     super.initState();
     user = AuthenticationService.auth.currentUser!;
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final userDoc =
+        FirebaseFirestore.instance.collection('users').doc(user.uid);
+    final userData = await userDoc.get();
+    setState(() {
+      bio = userData['bio'] ?? '';
+      username = userData['username'] ?? '';
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // final user = UserPreferences.myUser;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
@@ -45,21 +56,21 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
             const SizedBox(height: 24),
-            buildName(user),
+            buildName(),
             const SizedBox(height: 50),
             const NumbersWidget(),
             const SizedBox(height: 50),
-            buildAbout(user),
+            buildAbout(),
           ],
         ),
       ),
     );
   }
 
-  Widget buildName(User user) => Column(
+  Widget buildName() => Column(
         children: [
           Text(
-            user.displayName ?? '',
+            username,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(height: 4),
@@ -70,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       );
 
-  Widget buildAbout(User user) => Container(
+  Widget buildAbout() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,8 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 )),
             const SizedBox(height: 16),
             Text(
-              // user.bio ?? '',
-              '',
+              bio,
               style: const TextStyle(fontSize: 16, height: 1.4),
             ),
           ],
