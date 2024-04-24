@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_media_app/providers/profile_image_provider.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 import 'package:social_media_app/shared_assets/image_assets.dart';
 
@@ -17,11 +19,13 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Color(0xffcc0000);
+    final String imageUrl =
+        Provider.of<ProfileImageProvider>(context).profileImageUrl;
 
     return Center(
       child: Stack(
         children: [
-          buildImage(),
+          buildImage(imageUrl),
           if (isEdit)
             Positioned(
               bottom: 0,
@@ -33,7 +37,7 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  Widget buildImage() {
+  Widget buildImage(String imageUrl) {
     // // final image = AssetImage(imagePath);
     // final image = imagePath.isNotEmpty
     //     ? AssetImage(imagePath)
@@ -43,7 +47,10 @@ class ProfileWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Ink.image(
-          image: NetworkImage(imagePath),
+          // image: NetworkImage(imagePath),
+          image: imageUrl.isEmpty
+              ? AssetImage(ImageAssets.defaultProfilePicture) as ImageProvider
+              : NetworkImage(imageUrl),
           fit: BoxFit.cover,
           width: 128,
           height: 128,

@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_media_app/pages/profile/user_preferences.dart';
 import 'package:social_media_app/components/profile_widget.dart';
-// import 'package:social_media_app/components/user.dart';
 import 'package:social_media_app/components/textfield.dart';
+import 'package:social_media_app/providers/profile_image_provider.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,12 +54,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (_image != null) {
       final imageUrl = await _uploadImageToStorage(_image!);
       userData['imagePath'] = imageUrl;
-      user.updatePhotoURL(imageUrl);
+      // user.updatePhotoURL(imageUrl);
 
-      await userDoc.set(userData, SetOptions(merge: true));
+      Provider.of<ProfileImageProvider>(context, listen: false)
+          .setProfileImageUrl(imageUrl);
     } else {
       await userDoc.set(userData, SetOptions(merge: true));
     }
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Photo Saved')));
   }
 
   Future<String> _uploadImageToStorage(File imageFile) async {

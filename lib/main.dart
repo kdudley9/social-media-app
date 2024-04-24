@@ -1,6 +1,7 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_media_app/firebase_options.dart';
 import 'package:social_media_app/pages/add_post/add_post.dart';
 import 'package:social_media_app/pages/home/home_content.dart';
@@ -10,6 +11,7 @@ import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/pages/registration/signup_page.dart';
 import 'package:social_media_app/pages/registration/welcome_page.dart';
+import 'package:social_media_app/providers/profile_image_provider.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 
 void main() async {
@@ -23,7 +25,12 @@ void main() async {
     appleProvider: AppleProvider.appAttest,
   );
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ProfileImageProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
