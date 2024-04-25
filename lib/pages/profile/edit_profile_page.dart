@@ -113,7 +113,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: user.photoURL ?? '',
+              // imagePath: user.photoURL ?? '',
+              userId: user.uid,
               isEdit: true,
               onClicked: () async {
                 await _pickImage(ImageSource.gallery);
