@@ -7,15 +7,18 @@ class PostsService {
   final CollectionReference posts =
       FirebaseFirestore.instance.collection('User Posts');
 
-  Future<void> addPost(String message, String username) async {
+  Future<void> addPost(String message, String userId) async {
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(user?.uid)
         .get();
     String username = userSnapshot['username'];
+    String profilePhotoUrl = userSnapshot['imagePath'];
 
     await posts.add({
+      'UserId': userId,
       'Username': username,
+      'ProfilePhotoUrl': profilePhotoUrl,
       'Message': message,
       'Timestamp': Timestamp.now(),
     });

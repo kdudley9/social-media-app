@@ -49,6 +49,7 @@ class _HomeContentState extends State<HomeContent> {
                       return Post(
                         message: post['Message'],
                         user: post['Username'],
+                        profilePhotoUrl: post['ProfilePhotoUrl'],
                       );
                     },
                   );
