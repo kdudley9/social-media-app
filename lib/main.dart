@@ -12,6 +12,7 @@ import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/pages/registration/signup_page.dart';
 import 'package:social_media_app/pages/registration/welcome_page.dart';
 import 'package:social_media_app/providers/profile_image_provider.dart';
+import 'package:social_media_app/providers/user_data_provider.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 
 void main() async {
@@ -26,8 +27,11 @@ void main() async {
   );
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ProfileImageProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProfileImageProvider()),
+        ChangeNotifierProvider(create: (_) => UserDataProvider()),
+      ],
       child: const MyApp(),
     ),
   );

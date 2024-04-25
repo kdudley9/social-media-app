@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:social_media_app/components/profile_widget.dart';
 import 'package:social_media_app/components/textfield.dart';
 import 'package:social_media_app/providers/profile_image_provider.dart';
+import 'package:social_media_app/providers/user_data_provider.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -69,9 +70,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       Provider.of<ProfileImageProvider>(context, listen: false)
           .setProfileImageUrl(imageUrl);
-    } else {
-      await userDoc.set(userData, SetOptions(merge: true));
     }
+    await userDoc.set(userData, SetOptions(merge: true));
+
+    Provider.of<UserDataProvider>(context, listen: false)
+        .setUsername(_usernameController.text);
+    Provider.of<UserDataProvider>(context, listen: false)
+        .setBio(_bioController.text);
+
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text('Saved')));
   }
