@@ -7,9 +7,15 @@ class PostsService {
   final CollectionReference posts =
       FirebaseFirestore.instance.collection('User Posts');
 
-  Future<void> addPost(String message) {
-    return posts.add({
-      'Username': user!.displayName,
+  Future<void> addPost(String message, String username) async {
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .get();
+    String username = userSnapshot['username'];
+
+    await posts.add({
+      'Username': username,
       'Message': message,
       'Timestamp': Timestamp.now(),
     });

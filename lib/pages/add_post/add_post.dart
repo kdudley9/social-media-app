@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/services/posts_service.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
@@ -69,10 +70,14 @@ class _AddPostPageState extends State<AddPostPage> {
                         String message = _messageController.text.trim();
                         if (_formKey.currentState != null &&
                             _formKey.currentState!.validate()) {
-                          await postsService.addPost(message);
-                          _messageController.clear();
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, 'nav-bar', (route) => false);
+                          User? currentUser = FirebaseAuth.instance.currentUser;
+                          String? userId = currentUser?.uid;
+                          if (userId != null) {
+                            await postsService.addPost(message, userId);
+                            _messageController.clear();
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'nav-bar', (route) => false);
+                          }
                         }
                       },
                       child: const Text('Post'),
