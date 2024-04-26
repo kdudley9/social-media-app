@@ -80,6 +80,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text('Saved')));
+
+    Navigator.pushNamedAndRemoveUntil(context, 'nav-bar', (route) => false);
   }
 
   Future<String> _uploadImageToStorage(File imageFile) async {
@@ -113,7 +115,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              // imagePath: user.photoURL ?? '',
               userId: user.uid,
               isEdit: true,
               onClicked: () async {
@@ -135,14 +136,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
               maxLines: 5,
               onChanged: (bio) {},
             ),
-            const SizedBox(height: 24),
-            OutlinedButton(
-              onPressed: _saveUser,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.minglRed,
-                side: const BorderSide(color: AppColors.minglRed),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(AppColors.minglRed),
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(AppColors.minglWhite),
               ),
-              child: const Text("Save"),
+              onPressed: _saveUser,
+              child: const Text('Save'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'nav-bar', (route) => false);
+              },
+              child: const Text('Cancel'),
             ),
           ],
         ),

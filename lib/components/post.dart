@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
 class Post extends StatelessWidget {
   final String message;
@@ -17,6 +18,7 @@ class Post extends StatelessWidget {
     return Row(
       children: [
         CircleAvatar(
+          backgroundColor: AppColors.minglWhite,
           backgroundImage: NetworkImage(profilePhotoUrl),
         ),
         Column(

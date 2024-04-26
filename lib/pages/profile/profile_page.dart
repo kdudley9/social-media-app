@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:social_media_app/pages/profile/user_preferences.dart';
 import 'package:social_media_app/components/profile_widget.dart';
 import 'package:social_media_app/components/numbers_widget.dart';
 import 'package:social_media_app/services/authentication_service.dart';
@@ -50,10 +49,10 @@ class _ProfilePageState extends State<ProfilePage> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              // imagePath: user.photoURL ?? '',
               userId: user.uid,
               onClicked: () async {
-                Navigator.pushNamed(context, 'edit-profile');
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'edit-profile', (route) => false);
               },
             ),
             const SizedBox(height: 24),

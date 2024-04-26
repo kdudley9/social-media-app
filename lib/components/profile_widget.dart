@@ -50,7 +50,9 @@ class ProfileWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Ink.image(
-          image: NetworkImage(imageUrl),
+          image: imageUrl.isEmpty
+              ? NetworkImage(ImageAssets.defaultProfilePicture)
+              : NetworkImage(imageUrl),
           fit: BoxFit.cover,
           width: 128,
           height: 128,
