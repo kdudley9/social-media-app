@@ -3,6 +3,7 @@ import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/services/posts_service.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 import 'package:social_media_app/components/post.dart';
+import 'package:social_media_app/components/helper.dart';
 
 class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
@@ -23,16 +24,6 @@ class _HomeContentState extends State<HomeContent> {
         centerTitle: true,
         backgroundColor: AppColors.minglRed,
         foregroundColor: AppColors.minglWhite,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await _authenticationService.logout();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, 'login', (route) => false);
-            },
-            icon: const Icon(Icons.logout_outlined),
-          )
-        ],
       ),
       body: Column(
         children: [
@@ -49,6 +40,9 @@ class _HomeContentState extends State<HomeContent> {
                       return Post(
                         message: post['Message'],
                         user: post['Username'],
+                        postID: post.id,
+                        likes: List<String>.from(post['Likes'] ?? []),
+                        time: formatDate(post['Timestamp']),
                       );
                     },
                   );
