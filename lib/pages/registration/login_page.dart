@@ -109,8 +109,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 25),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0, vertical: 0.0),
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, 'reset-password');
@@ -123,18 +123,18 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(
+                          backgroundColor: MaterialStateProperty.all<Color>(
                               AppColors.minglRed),
-                          foregroundColor: WidgetStateProperty.all<Color>(
+                          foregroundColor: MaterialStateProperty.all<Color>(
                               AppColors.minglWhite),
-                          shape: WidgetStateProperty.all<OutlinedBorder>(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
                             const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5.0),
                               ),
                             ),
                           ),
-                          fixedSize: WidgetStateProperty.all<Size>(
+                          fixedSize: MaterialStateProperty.all<Size>(
                             const Size(350, 50),
                           ),
                         ),

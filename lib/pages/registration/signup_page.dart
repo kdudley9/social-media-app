@@ -134,18 +134,18 @@ class _SignupPageState extends State<SignupPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(
+                          backgroundColor: MaterialStateProperty.all<Color>(
                               AppColors.minglRed),
-                          foregroundColor: WidgetStateProperty.all<Color>(
+                          foregroundColor: MaterialStateProperty.all<Color>(
                               AppColors.minglWhite),
-                          shape: WidgetStateProperty.all<OutlinedBorder>(
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
                             const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5.0),
                               ),
                             ),
                           ),
-                          fixedSize: WidgetStateProperty.all<Size>(
+                          fixedSize: MaterialStateProperty.all<Size>(
                             const Size(350, 50),
                           ),
                         ),

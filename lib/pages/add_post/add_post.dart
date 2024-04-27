@@ -59,12 +59,12 @@ class _AddPostPageState extends State<AddPostPage> {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
+                        backgroundColor: MaterialStateProperty.all<Color>(
                             AppColors.minglRed),
-                        foregroundColor: WidgetStateProperty.all<Color>(
+                        foregroundColor: MaterialStateProperty.all<Color>(
                             AppColors.minglWhite),
                         fixedSize:
-                            WidgetStateProperty.all(const Size(100, 40)),
+                            MaterialStateProperty.all(const Size(100, 40)),
                       ),
                       onPressed: () async {
                         String message = _messageController.text.trim();
@@ -86,7 +86,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     OutlinedButton(
                       style: ButtonStyle(
                         fixedSize:
-                            WidgetStateProperty.all(const Size(100, 40)),
+                            MaterialStateProperty.all(const Size(100, 40)),
                       ),
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
