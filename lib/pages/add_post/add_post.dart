@@ -48,7 +48,7 @@ class _AddPostPageState extends State<AddPostPage> {
                       hintText: 'Insert your message...',
                     ),
                     maxLength: 250,
-                    scrollPadding: EdgeInsets.all(20.0),
+                    scrollPadding: const EdgeInsets.all(20.0),
                     autofocus: true,
                   ),
                 ),
@@ -58,12 +58,12 @@ class _AddPostPageState extends State<AddPostPage> {
                   children: [
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                             AppColors.minglRed),
-                        foregroundColor: MaterialStateProperty.all<Color>(
+                        foregroundColor: WidgetStateProperty.all<Color>(
                             AppColors.minglWhite),
                         fixedSize:
-                            MaterialStateProperty.all(const Size(100, 40)),
+                            WidgetStateProperty.all(const Size(100, 40)),
                       ),
                       onPressed: () async {
                         String message = _messageController.text.trim();
@@ -81,7 +81,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     OutlinedButton(
                       style: ButtonStyle(
                         fixedSize:
-                            MaterialStateProperty.all(const Size(100, 40)),
+                            WidgetStateProperty.all(const Size(100, 40)),
                       ),
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
