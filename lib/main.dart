@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white)
-            .copyWith(background: AppColors.minglWhite),
+            .copyWith(surface: AppColors.minglWhite),
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             side: const BorderSide(width: 2.0, color: AppColors.minglRed),
