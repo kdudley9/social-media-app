@@ -14,6 +14,7 @@ class Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8), // Add spacing between comments
       padding: const EdgeInsets.all(10), // Consistent padding
@@ -46,7 +47,7 @@ class Comment extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          const SizedBox(height: 6), // Space between message and timestamp
+          const SizedBox(height: 6),   // Space between user and time
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -54,7 +55,7 @@ class Comment extends StatelessWidget {
                 Icons.access_time, // Icon for timestamp
                 size: 14, // Smaller icon size
               ),
-              const SizedBox(width: 4), // Space between icon and time
+              const SizedBox(width: 4),
               Text(
                 time,
                 style: const TextStyle(
