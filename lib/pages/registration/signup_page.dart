@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
-import 'package:social_media_app/pages/content/home_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
-import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -152,21 +151,18 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            final _status = await _authenticationService.signUp(
+                            final status = await _authenticationService.signUp(
                               _usernameController.text.trim(),
                               _emailController.text.trim(),
                               _passwordController.text.trim(),
                             );
-                            if (_status == AuthStatus.successful) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
+                            if (status == AuthStatus.successful) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'nav-bar', (route) => false);
                             } else {
                               final error =
                                   AuthExceptionHandler.generateErrorMessage(
-                                      _status);
+                                      status);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(content: Text(error)));
                             }

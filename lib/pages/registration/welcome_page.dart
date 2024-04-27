@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social_media_app/pages/registration/login_page.dart';
-import 'package:social_media_app/pages/registration/signup_page.dart';
-import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -25,24 +23,14 @@ class WelcomePage extends StatelessWidget {
             const SizedBox(height: 75.0),
             OutlinedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                );
+                Navigator.pushNamed(context, 'login');
               },
               child: const Text("Log In"),
             ),
             const SizedBox(height: 25.0),
             OutlinedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SignupPage(),
-                  ),
-                );
+                Navigator.pushNamed(context, 'signup');
               },
               child: const Text('Create Account'),
             )

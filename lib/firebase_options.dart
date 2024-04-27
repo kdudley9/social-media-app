@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -72,10 +69,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyDPmJ_SAwbewZpltxFiJF3nJnB1UxzHATM',
-    appId: '1:97135906273:ios:c14f6c47ac6b5df61556a0',
+    appId: '1:97135906273:ios:f42bfa9631e8dbef1556a0',
     messagingSenderId: '97135906273',
     projectId: 'social-media-app-d8d22',
     storageBucket: 'social-media-app-d8d22.appspot.com',
-    iosBundleId: 'com.example.socialMediaApp.RunnerTests',
+    iosBundleId: 'com.example.socialMediaApp',
   );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyBFHx6mKhuSHFCUsI68FKzIGrfTdADjAhA',
+    appId: '1:97135906273:web:f84b259a6c71f1561556a0',
+    messagingSenderId: '97135906273',
+    projectId: 'social-media-app-d8d22',
+    authDomain: 'social-media-app-d8d22.firebaseapp.com',
+    storageBucket: 'social-media-app-d8d22.appspot.com',
+    measurementId: 'G-20X62GQCLR',
+  );
+
 }

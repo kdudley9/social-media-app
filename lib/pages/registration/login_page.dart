@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_media_app/exception_handlers/auth_exception_handler.dart';
-import 'package:social_media_app/pages/content/home_page.dart';
-import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/services/authentication_service.dart';
-import 'package:social_media_app/themes/app_colors.dart';
+import 'package:social_media_app/shared_assets/app_colors.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -111,15 +109,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 25),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 4.0, vertical: 0.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0, vertical: 0.0),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ResetPasswordPage()),
-                          );
+                          Navigator.pushNamed(context, 'reset-password');
                         },
                         child: const Text('Forgot password?'),
                       ),
@@ -146,20 +140,17 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            final _status = await _authenticationService.logIn(
+                            final status = await _authenticationService.logIn(
                               _emailcontroller.text.trim(),
                               _passwordController.text.trim(),
                             );
-                            if (_status == AuthStatus.successful) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()),
-                              );
+                            if (status == AuthStatus.successful) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, 'nav-bar', (route) => false);
                             } else {
                               final error =
                                   AuthExceptionHandler.generateErrorMessage(
-                                      _status);
+                                      status);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(content: Text(error)));
                             }
