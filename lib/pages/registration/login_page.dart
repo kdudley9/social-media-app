@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 25),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 4.0, vertical: 0.0),
+                          const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0.0),
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, 'reset-password');
@@ -123,34 +123,34 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                               AppColors.minglRed),
-                          foregroundColor: MaterialStateProperty.all<Color>(
+                          foregroundColor: WidgetStateProperty.all<Color>(
                               AppColors.minglWhite),
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                          shape: WidgetStateProperty.all<OutlinedBorder>(
                             const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5.0),
                               ),
                             ),
                           ),
-                          fixedSize: MaterialStateProperty.all<Size>(
+                          fixedSize: WidgetStateProperty.all<Size>(
                             const Size(350, 50),
                           ),
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            final _status = await _authenticationService.logIn(
+                            final status = await _authenticationService.logIn(
                               _emailcontroller.text.trim(),
                               _passwordController.text.trim(),
                             );
-                            if (_status == AuthStatus.successful) {
+                            if (status == AuthStatus.successful) {
                               Navigator.pushNamedAndRemoveUntil(
                                   context, 'nav-bar', (route) => false);
                             } else {
                               final error =
                                   AuthExceptionHandler.generateErrorMessage(
-                                      _status);
+                                      status);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(content: Text(error)));
                             }

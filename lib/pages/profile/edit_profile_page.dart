@@ -73,13 +73,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
       await userDoc.set(userData, SetOptions(merge: true));
     }
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Saved')));
+        .showSnackBar(const SnackBar(content: Text('Saved')));
   }
 
   Future<String> _uploadImageToStorage(File imageFile) async {
     try {
       String fileName =
-          DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+          '${DateTime.now().millisecondsSinceEpoch}.jpg';
       final ref = FirebaseStorage.instance
           .ref()
           .child('profile_images')
