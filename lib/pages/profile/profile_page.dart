@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:social_media_app/pages/profile/user_preferences.dart';
 import 'package:social_media_app/components/profile_widget.dart';
-import 'package:social_media_app/components/numbers_widget.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 
@@ -15,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final AuthenticationService _authenticationService = AuthenticationService();
   late User user;
   late String bio = '';
   late String username = '';
@@ -41,8 +40,19 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Profile"),
+        centerTitle: true,
         backgroundColor: AppColors.minglRed,
         foregroundColor: AppColors.minglWhite,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await _authenticationService.logout();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, 'login', (route) => false);
+            },
+            icon: const Icon(Icons.logout_outlined),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 30),
@@ -57,8 +67,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 24),
             buildName(),
-            const SizedBox(height: 50),
-            const NumbersWidget(),
             const SizedBox(height: 50),
             buildAbout(),
           ],

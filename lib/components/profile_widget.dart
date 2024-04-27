@@ -10,11 +10,11 @@ class ProfileWidget extends StatelessWidget {
   final bool isEdit;
 
   const ProfileWidget({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.onClicked,
     this.isEdit = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

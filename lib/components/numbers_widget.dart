@@ -15,7 +15,7 @@ class NumbersWidget extends StatelessWidget {
     ),
   );
 
-  Widget buildDivider() => Container(
+  Widget buildDivider() => const SizedBox(
     height: 24,
     child: VerticalDivider(),
   );
@@ -37,7 +37,7 @@ class NumbersWidget extends StatelessWidget {
               fontSize: 20,
             )
           ),
-          SizedBox(height: 2),
+          const SizedBox(height: 2),
           Text(
             text,
             style: const TextStyle(
