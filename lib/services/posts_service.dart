@@ -8,10 +8,18 @@ class PostsService {
       FirebaseFirestore.instance.collection('User Posts');
 
   // Add a new post with a default empty "Likes" list
-  Future<void> addPost(String message) {
-    return posts.add({
+  Future<void> addPost(String message, String userId) async {
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .get();
+    String username = userSnapshot['username'];
+    String profilePhotoUrl = userSnapshot['imagePath'];
+
+    await posts.add({
       'Username': user?.displayName ?? 'Unknown User',
       'Message': message,
+      'ProfilePhotoUrl': profilePhotoUrl,
       'Timestamp': Timestamp.now(),
       'Likes': <String>[], // Default empty list for likes
     });

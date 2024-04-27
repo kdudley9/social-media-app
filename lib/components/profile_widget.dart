@@ -1,38 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:social_media_app/providers/profile_image_provider.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 import 'package:social_media_app/shared_assets/image_assets.dart';
 
 class ProfileWidget extends StatelessWidget {
-  final String imagePath;
+  final String userId;
   final VoidCallback onClicked;
   final bool isEdit;
 
   const ProfileWidget({
-    super.key,
-    required this.imagePath,
+    Key? key,
     required this.onClicked,
     this.isEdit = false,
-  });
+    required this.userId,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final String imageUrl =
-        Provider.of<ProfileImageProvider>(context).profileImageUrl;
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _buildPlaceholder();
+        }
 
-    return Center(
-      child: Stack(
-        children: [
-          buildImage(imageUrl),
-          if (isEdit)
-            Positioned(
-              bottom: 0,
-              right: 4,
-              child: buildEditIcon(AppColors.minglRed),
-            )
-        ],
-      ),
+        final userData = snapshot.data!.data() as Map<String, dynamic>;
+        final imageUrl =
+            userData['imagePath'] ?? ImageAssets.defaultProfilePicture;
+
+        return Center(
+          child: Stack(
+            children: [
+              buildImage(imageUrl),
+              if (isEdit)
+                Positioned(
+                  bottom: 0,
+                  right: 4,
+                  child: buildEditIcon(AppColors.minglRed),
+                )
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -42,8 +51,7 @@ class ProfileWidget extends StatelessWidget {
         color: Colors.transparent,
         child: Ink.image(
           image: imageUrl.isEmpty
-              ? const AssetImage(ImageAssets.defaultProfilePicture)
-                  as ImageProvider
+              ? NetworkImage(ImageAssets.defaultProfilePicture)
               : NetworkImage(imageUrl),
           fit: BoxFit.cover,
           width: 128,
@@ -77,4 +85,18 @@ class ProfileWidget extends StatelessWidget {
           child: child,
         ),
       );
+
+  Widget _buildPlaceholder() {
+    return Container(
+      width: 128,
+      height: 128,
+      child: Center(
+        child: Icon(
+          Icons.account_circle,
+          size: 80,
+          color: Colors.grey[600],
+        ),
+      ),
+    );
+  }
 }

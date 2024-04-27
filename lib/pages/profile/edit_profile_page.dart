@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:social_media_app/components/profile_widget.dart';
 import 'package:social_media_app/components/textfield.dart';
 import 'package:social_media_app/providers/profile_image_provider.dart';
+import 'package:social_media_app/providers/user_data_provider.dart';
 import 'package:social_media_app/services/authentication_service.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -69,17 +70,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       Provider.of<ProfileImageProvider>(context, listen: false)
           .setProfileImageUrl(imageUrl);
-    } else {
-      await userDoc.set(userData, SetOptions(merge: true));
     }
+    await userDoc.set(userData, SetOptions(merge: true));
+
+    Provider.of<UserDataProvider>(context, listen: false)
+        .setUsername(_usernameController.text);
+    Provider.of<UserDataProvider>(context, listen: false)
+        .setBio(_bioController.text);
+
     ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Saved')));
+        .showSnackBar(SnackBar(content: Text('Saved')));
+
+    Navigator.pushNamedAndRemoveUntil(context, 'nav-bar', (route) => false);
   }
 
   Future<String> _uploadImageToStorage(File imageFile) async {
     try {
       String fileName =
-          '${DateTime.now().millisecondsSinceEpoch}.jpg';
+          DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
       final ref = FirebaseStorage.instance
           .ref()
           .child('profile_images')
@@ -107,7 +115,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: user.photoURL ?? '',
+              userId: user.uid,
               isEdit: true,
               onClicked: () async {
                 await _pickImage(ImageSource.gallery);
@@ -128,14 +136,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
               maxLines: 5,
               onChanged: (bio) {},
             ),
-            const SizedBox(height: 24),
-            OutlinedButton(
-              onPressed: _saveUser,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: AppColors.minglRed,
-                side: const BorderSide(color: AppColors.minglRed),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(AppColors.minglRed),
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(AppColors.minglWhite),
               ),
-              child: const Text("Save"),
+              onPressed: _saveUser,
+              child: const Text('Save'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'nav-bar', (route) => false);
+              },
+              child: const Text('Cancel'),
             ),
           ],
         ),

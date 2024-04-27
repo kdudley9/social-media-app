@@ -7,11 +7,13 @@ import 'package:social_media_app/pages/add_post/add_post.dart';
 import 'package:social_media_app/pages/home/home_content.dart';
 import 'package:social_media_app/components/nav_bar.dart';
 import 'package:social_media_app/pages/profile/edit_profile_page.dart';
+import 'package:social_media_app/pages/profile/profile_page.dart';
 import 'package:social_media_app/pages/registration/login_page.dart';
 import 'package:social_media_app/pages/registration/reset_password_page.dart';
 import 'package:social_media_app/pages/registration/signup_page.dart';
 import 'package:social_media_app/pages/registration/welcome_page.dart';
 import 'package:social_media_app/providers/profile_image_provider.dart';
+import 'package:social_media_app/providers/user_data_provider.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 
 void main() async {
@@ -26,8 +28,11 @@ void main() async {
   );
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ProfileImageProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProfileImageProvider()),
+        ChangeNotifierProvider(create: (_) => UserDataProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -62,6 +67,7 @@ class MyApp extends StatelessWidget {
         'reset-password': (context) => const ResetPasswordPage(),
         'welcome': (context) => const WelcomePage(),
         'edit-profile': (context) => const EditProfilePage(),
+        'profile': (context) => const ProfilePage(),
         'nav-bar': (context) => const NavBar(),
       },
     );

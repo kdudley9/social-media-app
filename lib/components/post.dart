@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:social_media_app/shared_assets/app_colors.dart';
 import 'package:social_media_app/components/like_button.dart';
 import 'package:social_media_app/components/comment_button.dart';
+import 'package:social_media_app/pages/profile/profile_page.dart';
 import 'package:social_media_app/components/comment.dart';
 import 'package:social_media_app/components/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +12,7 @@ class Post extends StatefulWidget {
   final String message;
   final String user;
   final String postID;
+  final String profilePhotoUrl;
   final String time;
   final List<String> likes;
   
@@ -19,6 +21,7 @@ class Post extends StatefulWidget {
     required this.message,
     required this.user,
     required this.postID,
+    required this.profilePhotoUrl,
     required this.likes,
     required this.time,
   });
@@ -129,7 +132,7 @@ class _PostState extends State<Post> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: [             
           Text(
             widget.user,
             style: const TextStyle(
@@ -145,8 +148,8 @@ class _PostState extends State<Post> {
           ),
           
           const SizedBox(height: 15),
-
-
+      
+      
           Row(
             children: [
               LikeButton(
@@ -158,9 +161,9 @@ class _PostState extends State<Post> {
                 widget.likes.length.toString(),
                 style: const TextStyle(color: Colors.grey),
               ),
-
+      
               const SizedBox(width: 35), 
-
+      
               CommentButton(
                 onTap: showCommentDialog,
               ),
@@ -171,8 +174,8 @@ class _PostState extends State<Post> {
               ),
             ],
           ),
-
-
+      
+      
           // display comments
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
@@ -187,7 +190,7 @@ class _PostState extends State<Post> {
                   child: CircularProgressIndicator(),
                 );
               }
-
+      
               return ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -199,13 +202,13 @@ class _PostState extends State<Post> {
                     user: commentData["Commenter"],
                     );
                 }).toList(),
-
+      
               );
             },
           ),
-
-
-
+      
+      
+      
         // time of the user post
         const SizedBox(height: 6),   // Space between comments or like and comment button and time
           Row(
@@ -225,8 +228,8 @@ class _PostState extends State<Post> {
               ),
             ],
           ),
-
-
+      
+      
         ],
       ),
     );

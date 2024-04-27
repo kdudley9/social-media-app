@@ -60,9 +60,10 @@ class _ProfilePageState extends State<ProfilePage> {
           physics: const BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: user.photoURL ?? '',
+              userId: user.uid,
               onClicked: () async {
-                Navigator.pushNamed(context, 'edit-profile');
+                Navigator.pushNamedAndRemoveUntil(
+                    context, 'edit-profile', (route) => false);
               },
             ),
             const SizedBox(height: 24),

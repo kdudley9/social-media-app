@@ -40,6 +40,7 @@ class _HomeContentState extends State<HomeContent> {
                       return Post(
                         message: post['Message'],
                         user: post['Username'],
+                        profilePhotoUrl: post['ProfilePhotoUrl'],
                         postID: post.id,
                         likes: List<String>.from(post['Likes'] ?? []),
                         time: formatDate(post['Timestamp']),
