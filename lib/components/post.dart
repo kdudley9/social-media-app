@@ -202,8 +202,29 @@ class _PostState extends State<Post> {
 
               );
             },
-          )
+          ),
 
+
+
+        // time of the user post
+        const SizedBox(height: 6),   // Space between comments or like and comment button and time
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.access_time, // Icon for timestamp
+                size: 14, // Smaller icon size
+              ),
+              const SizedBox(width: 4),
+              Text(
+                widget.time,
+                style: const TextStyle(
+                  color: Colors.grey, // Light gray for timestamp
+                  fontSize: 12, // Smaller size for timestamp
+                ),
+              ),
+            ],
+          ),
 
 
         ],
